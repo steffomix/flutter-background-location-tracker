@@ -17,13 +17,18 @@ void backgroundCallback() {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Future.delayed(const Duration(seconds: 3), initializeTracker);
+  runApp(MyApp());
+}
+
+Future<void> initializeTracker() async {
   await BackgroundLocationTrackerManager.initialize(
     backgroundCallback,
     config: const BackgroundLocationTrackerConfig(
       loggingEnabled: true,
       androidConfig: AndroidConfig(
         notificationIcon: 'explore',
-        trackingInterval: Duration(seconds: 4),
+        trackingInterval: Duration(seconds: 5),
         distanceFilterMeters: null,
       ),
       iOSConfig: IOSConfig(
@@ -33,8 +38,6 @@ Future<void> main() async {
       ),
     ),
   );
-
-  runApp(MyApp());
 }
 
 @override

@@ -26,7 +26,7 @@ import com.icapps.background_location_tracker.utils.SharedPrefsUtil
 import java.io.PrintWriter
 import java.io.StringWriter
 
-private const val timeOut = 24 * 60 * 60 * 1000L /*24 hours max */
+private const val timeOut = 7 * 24 * 60 * 60 * 1000L /*24 hours max */
 
 internal class LocationUpdatesService : Service() {
     private val binder: IBinder = LocalBinder()
@@ -248,11 +248,18 @@ internal class LocationUpdatesService : Service() {
     private fun createLocationRequest() {
         val interval = SharedPrefsUtil.trackingInterval(this)
         val distanceFilter = SharedPrefsUtil.distanceFilter(this)
+        locationRequest = LocationRequest.Builder(interval)
+            .setMinUpdateIntervalMillis(interval/2)
+            .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
+            .setMinUpdateDistanceMeters(distanceFilter)
+            .build()
+        /* 
         locationRequest = LocationRequest.create()
             .setInterval(interval)
             .setFastestInterval(interval / 2)
             .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
             .setSmallestDisplacement(distanceFilter)
+            */
     }
 
     /**

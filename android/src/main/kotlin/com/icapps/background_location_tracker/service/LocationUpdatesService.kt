@@ -100,7 +100,7 @@ internal class LocationUpdatesService : Service() {
         changingConfiguration = true
     }
 
-    override fun onBind(intent: Intent): IBinder? {
+    override fun onBind(intent: Intent): IBinder {
         // Called when a client (MainActivity in case of this sample) comes to the foreground
         // and binds with this service. The service should cease to be a foreground service
         // when that happens.
@@ -149,7 +149,7 @@ internal class LocationUpdatesService : Service() {
             val pw = PrintWriter(sw)
             e.printStackTrace(pw)
             pw.flush()
-            Logger.error(sw.toString(),"onUnbind failed to execute");
+            Logger.error(sw.toString(),"onUnbind failed to execute")
         }
 
         return true // Ensures onRebind() is called when a client re-binds.
@@ -196,7 +196,7 @@ internal class LocationUpdatesService : Service() {
      */
     fun stopTracking() {
         if (wakeLock?.isHeld == true) {
-            wakeLock?.release();
+            wakeLock?.release()
         }
         Logger.debug(TAG, "Removing location updates")
         val locationCallback = locationCallback ?: return
@@ -225,7 +225,7 @@ internal class LocationUpdatesService : Service() {
     }
 
     private fun onNewLocation(location: Location?) {
-        if (location == null) return;
+        if (location == null) return
         Logger.debug(TAG, "New location: $location")
         this.location = location
 
